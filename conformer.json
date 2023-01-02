@@ -1,0 +1,6 @@
+{
+    "en": {
+        "model_path": "models/en-conformer-ctc.nemo",
+        "device": "cuda"
+    }
+}

@@ -1,0 +1,4 @@
+Flask==2.2.2
+Flask-Cors==3.0.10
+Flask-Sockets==0.2.1
+pydub==0.25.1
