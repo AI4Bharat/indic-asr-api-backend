@@ -21,7 +21,7 @@ if __name__ == "__main__":
   # URL to the audio file
   MEDIA_URL = "https://objectstore.e2enetworks.net/indic-asr-public/sample_audio.wav"
   # API URL
-  API_URL = "https://asr-api.ai4bharat.org/asr/v1/recognize/en"
+  API_URL = "http://0.0.0.0:4992/recognize/en"
   
   # Download the audio file
   file = download_file(MEDIA_URL)

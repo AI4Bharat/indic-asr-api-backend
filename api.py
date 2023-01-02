@@ -9,7 +9,6 @@ import torch
 import numpy as np
 from pydub import AudioSegment
 import nemo.collections.asr as nemo_asr
-from support_nemo import load_data
 
 from flask import Flask, request
 from flask import jsonify
@@ -70,7 +69,7 @@ def predict_sample(wav_array, model):
     print(song.duration_seconds, "s, Duration of audio")
     arr /= np.iinfo(samples.typecode).max
     arr = arr.reshape(-1)
-    op = transcribe(arr,model,'cuda')
+    op = transcribe(arr,model)
 
     return op
     
@@ -132,7 +131,7 @@ def infer_ulca_en():
             continue
             
         model = name2model_dict[lang]
-        res = predict_sample(fp_arr,model,lang,number_mode)
+        res = predict_sample(fp_arr,model)
         preds.append({'source':res})
     return jsonify({"status":status, "output":preds})
 
