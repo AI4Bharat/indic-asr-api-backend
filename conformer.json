@@ -3,4 +3,8 @@
         "model_path": "models/en-conformer-ctc.nemo",
         "device": "cuda"
     }
+    "hi": {
+        "model_path": "models/stt_hi_conformer_ctc_large_v2.nemo",
+        "device": "cuda"
+    }
 }
