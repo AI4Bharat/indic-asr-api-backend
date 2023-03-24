@@ -19,6 +19,7 @@ pip install -r requirements.txt
 ```
 mkdir -p models
 wget -P models https://objectstore.e2enetworks.net/indic-asr-public/external/checkpoints/english/en-conformer-ctc.nemo
+wget -P models https://objectstore.e2enetworks.net/indic-asr-public/checkpoints/conformer/stt_hi_conformer_ctc_large_v2.nemo
 
 ```
 
