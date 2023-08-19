@@ -45,3 +45,6 @@ Output:
 Response: <Response [200]>
 Text: deposit five thousand rupees in my bank account
 ```
+## Deployment using Triton-Inference-Server
+
+Refer to [serving](https://github.com/AI4Bharat/indic-asr-api-backend/blob/master/serving) page for more details!
