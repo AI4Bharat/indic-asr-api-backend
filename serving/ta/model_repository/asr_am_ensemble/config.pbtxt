@@ -1,0 +1,88 @@
+name: "asr_am_ensemble"
+platform: "ensemble"
+max_batch_size: 32 #MAX_BATCH
+input {
+ name: "AUDIO_SIGNAL"
+ data_type: TYPE_FP32
+ dims: -1
+}
+input {
+  name: "NUM_SAMPLES"
+  data_type: TYPE_INT32
+  dims: [ 1 ]
+}
+output {
+ name: "TRANSCRIPTS"
+ data_type: TYPE_STRING
+ dims: [-1]
+}
+
+ensemble_scheduling {
+ step [
+  {
+  model_name: "asr_preprocessor"
+  model_version: -1
+  input_map {
+   key: "AUDIO_SIGNAL__0"
+   value: "AUDIO_SIGNAL"
+  }
+  input_map {
+   key: "NUM_SAMPLES__1"
+   value: "NUM_SAMPLES"
+  }
+  output_map {
+   key: "AUDIO_FEATURES__0"
+   value: "audio_features"
+  } 
+  output_map {
+   key: "NUM_TIME_STEPS__1"
+   value: "NUM_TIME_STEPS"
+  } 
+ },
+ {
+  model_name: "asr_am"
+  model_version: -1
+  input_map {
+   key: "audio_signal"
+   value: "audio_features"
+  }
+	input_map {
+	  key: "length"
+	  value: "NUM_TIME_STEPS"
+
+	}
+  output_map {
+   key: "logprobs"
+   value: "logits"
+  }
+ },
+ {
+  model_name: "asr_greedy_top1"
+  model_version: -1
+  input_map {
+   key: "CLASS_LOGITS__0"
+   value: "logits"
+  }
+  output_map {
+   key: "CANDIDATE_TRANSCRIPT__0"
+   value: "TRANSCRIPT_ID"
+  }
+ },
+ {
+  model_name: "asr_greedy_decoder"
+  model_version: -1
+  input_map {
+   key: "TRANSCRIPT_ID"
+   value: "TRANSCRIPT_ID"
+  }
+  input_map {
+   key: "NUM_TIME_STEPS"
+   value: "NUM_TIME_STEPS"
+  }
+  output_map {
+   key: "TRANSCRIPT"
+   value: "TRANSCRIPTS"
+  }
+ }
+ ]
+}

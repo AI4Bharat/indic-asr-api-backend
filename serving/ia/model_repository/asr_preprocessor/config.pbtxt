@@ -1,0 +1,42 @@
+name: "asr_preprocessor"
+platform: "pytorch_libtorch"
+default_model_filename: "model.pt"
+max_batch_size: 512
+
+input [ {
+  name: "AUDIO_SIGNAL__0"
+  data_type: TYPE_FP32
+  dims: [ -1 ]
+},
+{
+  name: "NUM_SAMPLES__1"
+  data_type: TYPE_INT32
+  dims: [ 1 ]
+  reshape { shape: [] }
+}
+]
+
+output [
+{
+  name: "AUDIO_FEATURES__0"
+  data_type: TYPE_FP32
+  dims: [80, -1]
+},
+{	
+    name: "NUM_TIME_STEPS__1"
+    data_type: TYPE_INT32
+    dims: [ 1 ]
+    reshape: { shape: [] }
+  }
+]
+
+
+dynamic_batching { }
+
+instance_group [
+    { 
+    count: 1
+    kind: KIND_GPU 
+    }
+]
+

@@ -1,0 +1,40 @@
+name: "asr_am"
+default_model_filename: "model.pt"
+platform: "pytorch_libtorch"
+
+max_batch_size: 32
+
+input [
+      {
+        name: "audio_signal"
+        data_type: TYPE_FP32
+        dims: [80, -1]
+      },
+      
+      {
+        name: "length"
+        data_type: TYPE_INT32
+        reshape: {shape: []}
+        dims: [1]
+      }
+]
+
+output [
+      {
+        name: "logprobs"
+        data_type: TYPE_FP32
+        dims: [-1, 513]
+      }
+]
+
+
+dynamic_batching { preferred_batch_size: [8,32] }
+
+  
+instance_group [
+    { 
+    count: 1
+    kind: KIND_GPU 
+    }
+]
+

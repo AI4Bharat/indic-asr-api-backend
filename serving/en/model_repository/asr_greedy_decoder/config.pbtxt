@@ -1,0 +1,40 @@
+name: "asr_greedy_decoder"
+backend: "python"
+max_batch_size: 32
+
+input [
+  {
+    name: "TRANSCRIPT_ID"
+    data_type: TYPE_INT32
+    dims: [ -1 ]
+  },
+  {
+    name: "NUM_TIME_STEPS",
+    data_type: TYPE_INT64,
+    dims: [ 1 ]
+  }
+]
+
+output [
+  {
+    name: "TRANSCRIPT"
+    data_type: TYPE_STRING
+    dims: [ 1 ]
+  }
+]
+
+parameters [
+  {
+    key: "subsampling_rate",
+    value: { string_value: "2" }
+  },
+  {
+    key: "blank_id",
+    value: { string_value: '-1'}
+  }
+]
+
+dynamic_batching {
+    preferred_batch_size: [ 4, 8, 16, 32 ]
+  }
+instance_group [{ kind: KIND_CPU }]

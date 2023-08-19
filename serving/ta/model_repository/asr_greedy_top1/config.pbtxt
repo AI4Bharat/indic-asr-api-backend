@@ -1,0 +1,27 @@
+name: "asr_greedy_top1"
+default_model_filename: "model.pt"
+platform: "pytorch_libtorch"
+
+max_batch_size: 32
+
+input [
+  {
+    name: "CLASS_LOGITS__0"
+    data_type: TYPE_FP32
+    dims: [ -1, 129 ]
+  }
+]
+output [
+  {
+    name: "CANDIDATE_TRANSCRIPT__0"
+    data_type: TYPE_INT32
+    dims: [ -1]
+  }
+]
+
+dynamic_batching {
+    preferred_batch_size: [4, 8, 16, 32]
+  }
+
+instance_group [{ count: 1, kind: KIND_GPU }]
+
