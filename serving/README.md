@@ -2,7 +2,7 @@
 ```
 export triton_base=<triton-base> # choose triton-base id from Language mapping given below
 
-docker run --shm-size=16g --gpus device=0 -it --rm -p8000:8000 -p8001:8001 -p8002:8002 -v $PWD:/models abhigyanr/triton-asr-nemo:v0.2 tritonserver --model-repository=/models/$triton_id/model_repository
+docker run --shm-size=16g --gpus device=0 -it --rm -p8000:8000 -p8001:8001 -p8002:8002 -v $PWD:/models abhigyanr/triton-asr-nemo:v0.2 tritonserver --model-repository=/models/$triton_base/model_repository
 ```
 
 ## Test using client code
