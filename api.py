@@ -135,6 +135,38 @@ def infer_ulca_en():
         preds.append({'source':res})
     return jsonify({"status":status, "output":preds})
 
+@app.route("/recognize/hi",methods=['POST'])
+@cross_origin()
+def infer_ulca_hi():
+    req_data = json.loads(request.data)
+    status = "SUCCESS"
+    preds = []
+    number_mode = float(req_data.get('number_mode',False))
+    lang = 'hi'
+    for f in req_data['audio']:
+        audio_uri, audio_bytes = f.get('audioUri',None),f.get('audioContent',None)
+        la = req_data['config']['language']['sourceLanguage']
+        af = req_data['config']['audioFormat']
+        if audio_uri in [None,''] and audio_bytes in [None,'']:
+            status = 'ERROR'
+            print(traceback.format_exc())
+            continue
+        try:
+            if audio_bytes == None:
+                fp_arr = load_data(audio_uri,of='url',lang=la)
+            else:
+                nm = str(round(time.time() * 1000))
+                fp_arr = load_data(audio_bytes,of='bytes',lang=la,bytes_name=nm+"."+af)
+        except:
+            status = 'ERROR'
+            print(traceback.format_exc())
+            continue
+            
+        model = name2model_dict[lang]
+        res = predict_sample(fp_arr,model)
+        preds.append({'source':res})
+    return jsonify({"status":status, "output":preds})
+
 
 
 if __name__ == "__main__":
