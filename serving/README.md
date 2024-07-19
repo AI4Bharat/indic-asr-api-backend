@@ -1,9 +1,12 @@
 # Start Triton server inside container
-```
-export triton_base=<triton-base> # choose triton-base id from Language mapping given below
 
-docker run --shm-size=16g --gpus device=0 -it --rm -p8000:8000 -p8001:8001 -p8002:8002 -v $PWD:/models abhigyanr/triton-asr-nemo:v0.2 tritonserver --model-repository=/models/$triton_base/model_repository
+- For indo-aryan(ia):
 ```
+docker run --shm-size=16g --gpus device=0 -it --rm -p8000:8000 -p8001:8001 -p8002:8002 ai4bharat/triton-indo-aryan-asr:latest tritonserver --model-repository=/models/
+```
+- For dravidian(dr): replace the docker image with `ai4bharat/triton-dravidian-asr:latest`
+- For hindi(hi): replace the docker image with `ai4bharat/triton-hindi-asr:latest`
+- For english(en): replace the docker image with `ai4bharat/triton-whisper-asr:latest`
 
 ## Test using client code
 
